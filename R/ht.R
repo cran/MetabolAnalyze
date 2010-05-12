@@ -5,7 +5,7 @@ function (x, Rowv = NULL, Colv = if (symm) "Rowv" else NULL,
         "Rowv"), scale = c("row", "column", "none"), na.rm = FALSE, 
     margins = c(5, 5), ColSideColors, RowSideColors, cexRow = 1, cexCol = 1, labRow = NULL, 
     labCol = NULL, main = NULL, xlab = NULL, ylab = NULL, keep.dendro = FALSE, 
-    verbose = getOption("verbose"), ...) 
+    verbose = getOption("verbose"), q, g) 
 {
     scale <- if (symm && missing(scale)) 
         "none"
@@ -123,8 +123,10 @@ function (x, Rowv = NULL, Colv = if (symm) "Rowv" else NULL,
         x <- x[, iy]
     }
     else iy <- 1L:nr
-    image(1L:nc, 1L:nr, x, xlim = 0.5 + c(0, nc), ylim = 0.5 + 
-        c(0, nr), axes = FALSE, xlab = "", ylab = "", ...)
+    #add extra space to right margin of plot within frame
+    par(mar=c(5, 4, 0, 4) + 0.1)
+    image(1L:nc, 1L:nr, x, xlim = 0.5 + c(0, nc), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "")
+    points(q,g, pch=3, col="black", cex=3, lwd=3)
     axis(1, 1L:nc, labels = labCol, line = -0.5, tick = 0, 
         cex.axis = cexCol)
     if (!is.null(xlab)) 

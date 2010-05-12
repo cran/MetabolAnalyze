@@ -39,7 +39,7 @@ On convergence of the algorithm, the number of loadings significantly different 
 \value{
 A list containing:
 \item{q}{The number of principal components in the optimal PPCA model, selected by the BIC.}
-\item{sig}{The maximum likelihood estimate of the variance of the error terms.}
+\item{sig}{The posterior mode estimate of the variance of the error terms.}
 \item{scores}{An N x q matrix of estimates of the latent locations of each observation in the principal subspace.}
 \item{loadings}{The maximum likelihood estimate of the p x q loadings matrix.}
 \item{SignifW}{The maximum likelihood estimate of the loadings matrix for those loadings significantly different from zero.}

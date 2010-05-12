@@ -7,7 +7,7 @@
 Probabilistic latent variable models for metabolomic data.
 }
 \description{
-Fits probabilistic principal components analysis (PPCA), probabilistic principal components and covariates analysis (PPCCA) and mixtures of probabilistic principal component analysis (MPPCA) models to metabolomic spectral data. Uncertainty associated with the model parameter estimates are provided.
+Fits probabilistic principal components analysis (PPCA), probabilistic principal components and covariates analysis (PPCCA) and mixtures of probabilistic principal component analysis (MPPCA) models to metabolomic spectral data. Estimates of the uncertainty associated with the model parameter estimates are provided.
 }
 \details{
 \tabular{ll}{

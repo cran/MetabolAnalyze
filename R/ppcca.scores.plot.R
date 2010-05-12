@@ -1,11 +1,16 @@
 ppcca.scores.plot <-
-function(output, Covars, group=FALSE)
+function(output, Covars, group=FALSE, covarnames=NULL)
 {
  q<-output$q
+ Covars<-as.matrix(Covars)
  Covars<-standardize(Covars)
  if(colnames(Covars, do.NULL=FALSE)[1] =="col1")
  {
  	colnames(Covars)<-c(paste("Covariate_ ", 1:ncol(Covars), sep=""))
+ }
+ if(is.null(covarnames) == FALSE)
+ {
+ 	colnames(Covars)<-covarnames
  }
  gpnames<-levels(as.factor(group))
  

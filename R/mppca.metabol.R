@@ -140,7 +140,7 @@ for(g in ming:maxg)
             ## Second M-step
 	        res2<-mstep2(Y, Tau, Pi, mu, W, Sig, g, p, q)                                     
     	    W<-res2[[1]]
-	        Sig<-abs(res2[[2]]) 
+	        Sig<-res2[[2]]
 
             ### OBSERVED LOG LIKELIHOOD
             store<-matrix(NA,nrow(Y),g)
@@ -261,7 +261,7 @@ if(plot.BIC == TRUE)
    }
    if( (ming!=maxg) & (minq!=maxq))
    {
-      ht(matrix(BIC, maxg-ming+1, maxq-minq+1, byrow=TRUE), xlab = "PCs", ylab = "Groups",main = "BIC Values",Rowv = NA, Colv = NA, scale="none")
+      ht(matrix(BIC, maxg-ming+1, maxq-minq+1, byrow=FALSE), q=qopt, g=gopt, xlab = "PCs", ylab = "Groups",main = "BIC Values",Rowv = NA, Colv = NA, scale="none")
    }
 }
 

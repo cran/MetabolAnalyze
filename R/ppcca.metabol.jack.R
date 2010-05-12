@@ -81,7 +81,10 @@ if (epsilon < 0.0001) {
   	  J<-Y[-n,] 			   	  ## Jackknife data set
       Covarsj<-Covars[,-n] 				  ## Jackknife covariate data set
 	  J<-scaling(J, scale)                ## Scaling
-	  Jc<-sweep(J,2,colMeans(J),"-")      ## Center jackknife data
+	  Vp<-10                                               
+	  C2p<-p*3
+	  muhat<-colMeans(J)	
+	  Jc<-sweep(J,2,muhat,"-")  ## Center jackknife data
   	  Sj<-(1/nrow(Jc))*(t(Jc)%*%Jc)
 
 	  tol<-epsilon+1
@@ -94,14 +97,22 @@ if (epsilon < 0.0001) {
      			Wj<-Wopt
      			Sigj<-Sigopt
      			Alphaj<-Alphaopt
+     			uj<-t(Uopt[-n,])
      		}
+     		
+     		# E-step 
             M_1<-solve(t(Wj)%*%Wj + Sigj*diag(q))                         
             u<-M_1%*%(t(Wj)%*%t(Jc) + Sigj*(Alphaj%*%Covarsj))                   ## Expected value of scores.
             Sum_Euu<-(nrow(Jc)*Sigj*M_1) + (u%*%t(u))
+            
+            # M-step
             Alphaj<-(u%*%t(Covarsj))%*%solve(Covarsj%*%t(Covarsj))                         ## Estimation of regression coefficients
-            Wj<-(t(Jc)%*%t(u))%*%solve(Sum_Euu)                             ## Estimation of loadings.                         
+            
+            Wj<-(t(Jc)%*%t(u))%*%solve(Sum_Euu)                             ## Estimation of loadings.                
+                     
             YWEu<-sum(diag(Jc%*%Wj%*%u))
-            Sig<-(nrow(Jc)*sum(diag(Sj)) + sum(diag((t(Wj)%*%Wj)%*%Sum_Euu)) - 2*YWEu)/(p*nrow(Jc))    ## Estimation of the variance.
+            MLESigj<-(nrow(Jc)*sum(diag(Sj)) + sum(diag((t(Wj)%*%Wj)%*%Sum_Euu)) - 2*YWEu)/(p*nrow(Jc))    ## Estimation of the variance.
+      		Sigj<- c(((N*p)*MLESigj + C2p)/((N*p) + Vp + 2))
 
 
             ### Observed Log Likelihood jackknife PPCCA ########

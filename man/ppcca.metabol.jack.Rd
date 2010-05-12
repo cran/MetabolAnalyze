@@ -45,7 +45,7 @@ On convergence of the algorithm, the number of loadings significantly different 
 \value{
 A list containing:
 \item{q}{The number of principal components in the optimal PPCCA model, selected by the BIC.}
-\item{sig}{The maximum likelihood estimate of the variance of the error terms.}
+\item{sig}{The posterior mode estimate of the variance of the error terms.}
 \item{scores}{An N x q matrix of estimates of the latent locations of each observation in the principal subspace.}
 \item{loadings}{The maximum likelihood estimate of the p x q loadings matrix.}
 \item{SignifW}{The maximum likelihood estimate of the loadings matrix for those loadings significantly different from zero.}
@@ -73,9 +73,9 @@ Nyamundanda Gift, Isobel Claire Gormley and Lorraine Brennan.
 \examples{
 data(UrineSpectra)
 \dontrun{
-mdlfit<-ppcca.metabol.jack(UrineSpectra[[1]], UrineSpectra[[2]][,2:3], minq=2, maxq=2)
+mdlfit<-ppcca.metabol.jack(UrineSpectra[[1]], UrineSpectra[[2]][,2], minq=2, maxq=2)
 loadings.jack.plot(mdlfit)
-ppcca.scores.plot(mdlfit, UrineSpectra[[2]][,2:3], group=UrineSpectra[[2]][,1])
+ppcca.scores.plot(mdlfit, UrineSpectra[[2]][,2], group=UrineSpectra[[2]][,1], covarnames="Weight")
 }
 }
 \keyword{ methods }

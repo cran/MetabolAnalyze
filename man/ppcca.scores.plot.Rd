@@ -8,7 +8,7 @@ Plot scores from a fitted PPCCA model.
 A function to plot the scores resulting from fitting a PPCCA model to metabolomic data.
 }
 \usage{
-ppcca.scores.plot(output, Covars, group = FALSE)
+ppcca.scores.plot(output, Covars, group = FALSE, covarnames=NULL)
 }
 \arguments{
   \item{output}{
@@ -19,6 +19,9 @@ An N x L covariate data matrix where each row is a set of covariates.
 }
   \item{group}{
 Should it be relevant, a vector indicating the known treatment group membership of each observation.
+}
+   \item{covarnames}{
+Should it be relevant, a vector string indicating the names of the covariates.
 }
 }
 \details{

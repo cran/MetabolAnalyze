@@ -43,7 +43,7 @@ This function fits a mixture of probabilistic principal components analysis mode
 A list containing:
 \item{q}{The number of principal components in the optimal MPPCA model, selected by the BIC.}
 \item{g}{The number of groups in the optimal MPPCA model, selected by the BIC.}
-\item{sig}{The maximum likelihood estimate of the variance of the error terms.}
+\item{sig}{The posterior mode estimate of the variance of the error terms.}
 \item{scores}{A list of length g, each entry of which is a n_g x q matrix of estimates of the latent locations of each observation in group g in the principal subspace.}
 \item{loadings}{An array of dimension p x q x g, each sheet of which contains the maximum likelihood estimate of the p x q loadings matrix for a group.}
 \item{Pi}{The vector indicating the probability of belonging to each group.}

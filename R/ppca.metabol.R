@@ -43,9 +43,13 @@ ll<-matrix(0,maxq,V)                    ## Log likelihood for each iteration
 lla<-matrix(0,maxq,V)                   ## Estimate of the asymptotic maximum of the log likelihood for each iteration
    
 Y<-as.matrix(scaling(Y, type=scale))
-Yc<-sweep(Y,2,colMeans(Y),"-")                 ## Center data
+##### Prior Parameters
+Vp<-10                                               
+C2p<-p*3
+muhat<-colMeans(Y)					#  mu MLE
+Yc<-sweep(Y,2,muhat,"-")                 ## Center data
 S<-(1/nrow(Yc))*(t(Yc)%*%Yc)                   ## Empirical covariance matrix
-temp<-eigen(S)                                 ## Eigen-decomposition of S
+temp<-eigen(S)   
 
 ### Fit maxq-PPCA Models 
 for(q in minq:maxq)
@@ -53,20 +57,28 @@ for(q in minq:maxq)
    ### Initialize the model 
    Sig<-abs((1/(p-q))*sum(temp$val[(q+1):p]))     ## Starting value for variance
    W<-temp$vec[,1:q]                              ## Starting value for loadings
+   u<-t(cmdscale(dist(Y),q))
 
    tol <- epsilon+1                               ## Initial tolerance value
    v <- 0                                         ## Initializing iteration counter
    while(tol>epsilon)                             ## Until convergence
    {
       v <- v+1
+      
+      ## M step	  
       k<-S%*%W
-      M_1<-solve((t(W)%*%W + Sig*diag(q)))                            	  ## E step
+      M_1<-solve((t(W)%*%W + Sig*diag(q)))  
+      
       W<-k%*%solve(Sig*diag(q) + (M_1%*%t(W))%*%k)
-      Sig<-(1/p)*sum(diag(S - k%*%(M_1%*%t(W))))                  	  ## M Step
+     
+      MLESig<-(1/p)*sum(diag(S - k%*%(M_1%*%t(W))))
+      Sig<- c(((N*p)*MLESig + C2p)/((N*p) + Vp + 2))
+            
+      ## E step
       u<-M_1%*%(t(W)%*%t(Yc))
 
       ### Calculate observed log-likelihood 
-      ll[q,v]<-sum(dmvnorm(Y, colMeans(Y), W%*%t(W)+Sig*diag(p), log=TRUE))
+      ll[q,v]<-sum(dmvnorm(Y, muhat, W%*%t(W)+Sig*diag(p), log=TRUE))
     
       ### Covergence assessment
       converge<-Aitken(ll, lla, v, q, epsilon)

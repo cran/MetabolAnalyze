@@ -39,7 +39,7 @@ This function fits a probabilistic principal components analysis model to metabo
 \value{
 A list containing:
 \item{q}{The number of principal components in the optimal PPCA model, selected by the BIC.}
-\item{sig}{The maximum likelihood estimate of the variance of the error terms.}
+\item{sig}{The posterior mode estimate of the variance of the error terms.}
 \item{scores}{An N x q matrix of estimates of the latent locations of each observation in the principal subspace.}
 \item{loadings}{The maximum likelihood estimate of the p x q loadings matrix.}
 \item{BIC}{A vector containing the BIC values for the fitted models.}

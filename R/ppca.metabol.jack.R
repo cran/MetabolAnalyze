@@ -48,7 +48,10 @@ if (epsilon < 0.0001) {
 	{
   		J<-Y[-n,] 			   			## Jackknife data set
   		J<-scaling(J, scale)			## Scaling
-	    Jc<-sweep(J,2,colMeans(J),"-")  ## Center jackknife data
+	    Vp<-10                                               
+		C2p<-p*3
+		muhat<-colMeans(J)	
+	    Jc<-sweep(J,2,muhat,"-")  ## Center jackknife data
   		Sj<-(1/nrow(Jc))*(t(Jc)%*%Jc)
 
 	    tol<-epsilon+1
@@ -60,14 +63,23 @@ if (epsilon < 0.0001) {
      		{
      			Wj<-Wopt
      			Sigj<-Sigopt
+     			uj<-t(Uopt[-n,])
      		}
+     		
+     		## M step   		
 		    k<-Sj%*%Wj
             M_1<-solve((t(Wj)%*%Wj + Sigj*diag(q)))   ## E step
             Wj<-k%*%solve(Sigj*diag(q) + (M_1%*%t(Wj))%*%k)
-            Sigj<-(1/p)*sum(diag(Sj - k%*%(M_1%*%t(Wj))))   ## M Step
+            
+            MLESigj<-(1/p)*sum(diag(Sj - k%*%(M_1%*%t(Wj))))   ## M Step
+      		Sigj<- c(((N*p)*MLESigj + C2p)/((N*p) + Vp + 2))
+
+            
+     		## E step
+      		uj<-M_1%*%(t(Wj)%*%t(Jc))
      
      		## Covergence Assessment
-		    ll[q,v]<-sum(dmvnorm(J, colMeans(J), Wj%*%t(Wj)+Sigj*diag(p), log=TRUE))
+		    ll[q,v]<-sum(dmvnorm(J, muhat, Wj%*%t(Wj)+Sigj*diag(p), log=TRUE))
 			converge<-Aitken(ll, lla, v, q, epsilon)
             tol<-converge[[1]]
             lla[q,v]<-converge[[2]]
@@ -90,7 +102,7 @@ if (epsilon < 0.0001) {
 	## Determine ppm variables significantly different from zero.
 	ProdciPC1<-apply(CI_W[,1:2],1,prod)
 	Signifppmz<-ProdciPC1>0       ## Selecting ppm variables with loadings on PC 1 which are significantly different from zero.
-	SignifW<-matrix(Wopt[Signifppmz,], ncol=ncol(Wopt))
+	SignifW<-Wopt[Signifppmz,]
 	nSL<-nrow(SignifW)
 	Lower<-as.matrix(LowerCI_W[Signifppmz,])
 	Upper<-as.matrix(UpperCI_W[Signifppmz,])

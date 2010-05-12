@@ -51,12 +51,6 @@ if(p > 375)
 }
 
 
-unscaledY<-Y								
-Y<-as.matrix(scaling(Y, type=scale))           ## Scale the data
-Yc<-sweep(Y,2,colMeans(Y),"-")                 ## Center data
-S<-(1/nrow(Yc))*(t(Yc)%*%Yc)                   ## Empirical covariance matrix
-temp<-eigen(S)                                 ## Eigen-decomposition of S
-
 ######## Storage Q-PPCA Models #########
 Sig_q<-rep(0,maxq)                      ## Storage of noise covariance 
 W_q<-list()                             ## Storage of loadings for Q models
@@ -66,6 +60,17 @@ AIC<-rep(0,maxq)                        ## Storage of AIC values
 BIC<-rep(0,maxq)                        ## Storage of BIC values
 ll<-matrix(NA,maxq,V)                    ## Log likelihood for each iteration
 lla<-matrix(NA,maxq,V)                   ## Estimate of the asymptotic maximum of the log likelihood on each iteration
+   
+   
+#unscaledY<-Y								
+Y<-as.matrix(scaling(Y, type=scale))           ## Scale the data
+##### Prior Parameters
+Vp<-10                                               
+C2p<-p*3
+muhat<-colMeans(Y)					#  mu MLE
+Yc<-sweep(Y,2,muhat,"-")                 ## Center data
+S<-(1/nrow(Yc))*(t(Yc)%*%Yc)                   ## Empirical covariance matrix
+temp<-eigen(S)    
    
 ### Fit maxq-PPCCA Models 
 for(q in minq:maxq)
@@ -92,18 +97,25 @@ for(q in minq:maxq)
    while(tol>epsilon)                                        ## Until convergence
    {
       v <- v+1
+      
+      # E-step      
       M_1<-solve(t(W)%*%W + Sig*diag(q))                         
       u<-M_1%*%(t(W)%*%t(Yc) + Sig*(Alpha%*%Covars))   ## Expected value of scores.
       Sum_Euu<-(nrow(Yc)*Sig*M_1) + (u%*%t(u))
+      
+      ## M step
       Alpha<-(u%*%t(Covars))%*%solve(Covars%*%t(Covars))        ## Estimation of regression coefficients
+      
       W<-(t(Yc)%*%t(u))%*%solve(Sum_Euu)         ## Estimation of loadings.                         
+      
       YWEu<-sum(diag(Yc%*%W%*%u))
-      Sig<-(nrow(Yc)*sum(diag(S)) + sum(diag((t(W)%*%W)%*%Sum_Euu)) - 2*YWEu)/(p*nrow(Yc))    ## Estimation of the variance.
+      MLESig<-(nrow(Yc)*sum(diag(S)) + sum(diag((t(W)%*%W)%*%Sum_Euu)) - 2*YWEu)/(p*nrow(Yc))    ## Estimation of the variance MLE.
+      Sig<- c(((N*p)*MLESig + C2p)/((N*p) + Vp + 2))
 
       ### Calculate observed log-likelihood 
       Den<-rep(NA, nrow(Y))
-      Sigma<-W%*%t(W)+Sig*diag(p)
-      mumat<-W%*%(Alpha%*%Covars) + matrix(colMeans(Y), nrow=p, ncol=N, byrow=FALSE)
+      Sigma<-W%*%t(W)+(Sig*diag(p))
+      mumat<-W%*%(Alpha%*%Covars) + matrix(muhat, nrow=p, ncol=N, byrow=FALSE)    
       for(i in 1:nrow(Y))
       {
          Den[i]<-(dmvnorm(Y[i,], mumat[,i], Sigma, log=TRUE))
