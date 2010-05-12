@@ -1,0 +1,20 @@
+citHeader("To cite package 'MetabolAnalyze' in publications use:")
+
+desc <- packageDescription("MetabolAnalyze")
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", desc$Date)
+vers <- paste("R package version", desc$Version)
+
+citEntry(entry="Manual",
+         title = "MetabolAnalyze: probabilistic principal components analysis for metabolomic data",
+         author = personList(as.person("Nyamundanda Gift"),
+                             as.person("Isobel Claire Gormley"),
+                             as.person("Lorraine Brennan")),
+         year = year,
+         note = vers,
+
+         textVersion =
+         paste("Nyamundanda Gift, Isobel Claire Gormley and Lorraine Brennan and the R Core team (",
+               year,
+               "). MetabolAnalyze: probabilistic principal components analysis for metabolomic data",
+               vers, ".", sep=""))
+
