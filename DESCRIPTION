@@ -12,6 +12,6 @@ Description: Fits probabilistic principal components analysis,
 Depends: mclust, mvtnorm, ellipse, gtools, gplots
 License: GPL-2
 LazyLoad: yes
-Packaged: 2012-07-11 17:15:11 UTC; clairegormleyoldmac
+Packaged: 2012-08-29 13:29:24 UTC; clairegormleyoldmac
 Repository: CRAN
-Date/Publication: 2012-07-11 17:50:31
+Date/Publication: 2012-08-29 14:22:54
