@@ -188,9 +188,9 @@ if (epsilon < 0.0001) {
 	cutoff<-cutoff[(nHL==number)][1]
 	
 	SignifHighppm<-abs(SignifW[,1])>cutoff
-    SignifHighW<-matrix(SignifW[SignifHighppm,], ncol=q, byrow=TRUE)
-	LowerH<-matrix(Lower[SignifHighppm,], ncol=q, byrow=TRUE)
-	UpperH<-matrix(Upper[SignifHighppm,], ncol=q, byrow=TRUE)
+    SignifHighW<-matrix(SignifW[SignifHighppm,], ncol=q)
+	LowerH<-matrix(Lower[SignifHighppm,], ncol=q)
+	UpperH<-matrix(Upper[SignifHighppm,], ncol=q)
 
 
 	## Bar plot of significant high loadings

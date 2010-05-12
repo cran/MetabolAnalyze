@@ -22,7 +22,7 @@ Logical indicating whether a legend should be plotted.
 }
 }
 \details{
-This function produces a series of scatterplots, for each group uncovered. For group g, each scatterplot illustrates the estimated score for each observation allocated to that group within the reduced q dimensional space. The uncertainty associated with the score estimate is also illustrated. 
+This function produces a series of scatterplots, for each group uncovered. For group g, each scatterplot illustrates the estimated score for each observation allocated to that group within the reduced q dimensional space. The uncertainty associated with the score estimate is also illustrated through its 95% posterior set. 
 
 It is often the case that observations are known to belong to treatment groups, for example, and the MPPCA model is employed to uncover any underlying subgroups, possibly related to disease subtypes. The treatment group membership of each observation can be illustrated on the plots produced by utilizing the `group' argument.
 }

@@ -90,7 +90,7 @@ if (epsilon < 0.0001) {
 	## Determine ppm variables significantly different from zero.
 	ProdciPC1<-apply(CI_W[,1:2],1,prod)
 	Signifppmz<-ProdciPC1>0       ## Selecting ppm variables with loadings on PC 1 which are significantly different from zero.
-	SignifW<-Wopt[Signifppmz,]
+	SignifW<-matrix(Wopt[Signifppmz,], ncol=ncol(Wopt))
 	nSL<-nrow(SignifW)
 	Lower<-as.matrix(LowerCI_W[Signifppmz,])
 	Upper<-as.matrix(UpperCI_W[Signifppmz,])
@@ -118,9 +118,9 @@ if (epsilon < 0.0001) {
 	cutoff<-cutoff[(nHL==number)][1]
 	
 	SignifHighppm<-abs(SignifW[,1])>cutoff
-    SignifHighW<-matrix(SignifW[SignifHighppm,], ncol=q, byrow=TRUE)
-	LowerH<-matrix(Lower[SignifHighppm,], ncol=q, byrow=TRUE)
-	UpperH<-matrix(Upper[SignifHighppm,], ncol=q, byrow=TRUE)
+    SignifHighW<-matrix(SignifW[SignifHighppm,], ncol=q)
+	LowerH<-matrix(Lower[SignifHighppm,], ncol=q)
+	UpperH<-matrix(Upper[SignifHighppm,], ncol=q)
 	
 	## Bar plot of significant high loadings
 	barplot2(SignifHighW[,1], ylim=c(min(LowerH[,1],0)-1.5, max(UpperH[,1],0)+1.5), las=2, width=0.5, space=0.5, plot.grid=TRUE, ylab="PC 1 loadings", xlab="Spectral regions", names.arg = rownames(SignifW)[SignifHighppm], plot.ci = TRUE, ci.l = LowerH[,1], ci.u = UpperH[,1], font.main = 2, col="red")

@@ -72,19 +72,18 @@ for(q in minq:maxq)
 {    
 
    ### Initializing the model 
-   ppcares<-ppca.metabol(unscaledY, minq=q, maxq=q, scale=scale, epsilon=epsilon*10, printout=FALSE)
-   Sig<-ppcares$sig
-   W<-ppcares$loadings
+   Sig<-abs((1/(p-q))*sum(temp$val[(q+1):p]))   ## Starting values for variance
+   W<-temp$vec[,1:q]                            ## Starting value for loadings
+   scores<-t(solve((t(W)%*%W) + (Sig*diag(q)))%*%t(W)%*%t(Yc))
    Alpha<-matrix(0, q, L+1)
-   approxscores<-cmdscale(dist(Y))
    for(i in 1:q)
    {
    	if(L==1)
    	{
-   		dat<-data.frame(cbind(ppcares$scores[,i], as.matrix(Covars[2:(L+1),])))
-     }else{
-        dat<-data.frame(cbind(ppcares$scores[,i], t(Covars[2:(L+1),])))
-     }
+   		dat<-data.frame(cbind(scores[,i], as.matrix(Covars[2:(L+1),])))
+      }else{
+            dat<-data.frame(cbind(scores[,i], t(Covars[2:(L+1),])))
+      }
    	Alpha[i,]<-glm(dat, family=gaussian)$coef
    }
       

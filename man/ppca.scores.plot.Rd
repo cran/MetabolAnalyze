@@ -18,7 +18,7 @@ An object resulting from fitting a PPCA model.
 Should it be relevant, a vector indicating the known treatment group membership of each observation.}
 }
 \details{
-This function produces a series of scatterplots each illustrating the estimated score for each observation within the reduced q dimensional space. The uncertainty associated with the score estimate is also illustrated. 
+This function produces a series of scatterplots each illustrating the estimated score for each observation within the reduced q dimensional space. The uncertainty associated with the score estimate is also illustrated through its 95% posterior set. 
 
 It is often the case that observations are known to belong to treatment groups; the treatment group membership of each observation can be illustrated on the plots produced by utilizing the `group' argument.
 }

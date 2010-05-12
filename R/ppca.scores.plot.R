@@ -9,13 +9,13 @@ function(output, group=FALSE)
  {
 	if((group==FALSE)[1])
     {
-        plot(output$scores[,1], rep(0,nrow(output$scores)), yaxt='n', cex=1, pch=16, font=5, xlab="PC 1", ylab="", col=colr(1,0.6))
+        plot(output$scores[,1], rep(0,nrow(output$scores)), yaxt='n', pch=16, font=5, xlab="PC 1", ylab="", col=1)
         legend("topright", bty="n", paste("Variance = ", round(sigma,2), sep=""))
         abline(h=0)
      }else{
-         plot(output$scores[,1], rep(0,nrow(output$scores)), yaxt='n', cex=1, pch=rep(16:26)[group], col=colr(group,0.6), font=5, xlab="PC 1", ylab="")
+         plot(output$scores[,1], rep(0,nrow(output$scores)), yaxt='n', cex=1, pch=rep(16:26)[group], col=group, font=5, xlab="PC 1", ylab="")
          abline(h=0)
-         legend("topleft", bty = "n", paste("Group ", c(gpnames), sep=""), col = names(table(colr(group,0.6))), pch = rep(16:26))
+         legend("topleft", bty = "n", paste("Group ", c(gpnames), sep=""), col = group, pch = rep(16:26))
          legend("topright", bty="n", paste("Variance = ", round(sigma,2), sep=""))
       }
  }
@@ -26,19 +26,19 @@ function(output, group=FALSE)
          plot(output$scores[,1], output$scores[,2], xlim=c(min(output$scores[,1]),max(output$scores[,1])),  ylim=c(min(output$scores[,2]), max(output$scores[,2])+0.5*range(output$scores[,2])[2]), type="n", xlab="PC1", ylab="PC 2")
          for(i in 1:nrow(output$scores))
          {
-               mvn2plot(output$scores[,1:2][i,], sigma[1:2,1:2], k = 15, alone = FALSE, col = "grey50")  
+               points(ellipse(sigma[1:2,1:2], centre=output$scores[, 1:2][i, ], level=0.95), type="l", col="grey50") 
          }
-         points(output$scores[,1], output$scores[,2], cex=1, pch=16, font=5, col=colr(1,0.6))
-         legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = c(1), pch = c(3))
+         points(output$scores[,1], output$scores[,2], cex=1, pch=16, font=5, col=1)
+         legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = 1)
       }else{
           plot(output$scores[,1], output$scores[,2], xlim=c(min(output$scores[,1]),max(output$scores[,1])), ylim=c(min(output$scores[,2]), max(output$scores[,2])+0.5*range(output$scores[,2])[2]), type="n", xlab="PC1", ylab="PC 2")
           for(i in 1:nrow(output$scores))
           {
-               mvn2plot(output$scores[,1:2][i,], sigma[1:2,1:2], k = 15, alone = FALSE, col = "grey50")  
+               points(ellipse(sigma[1:2,1:2], centre=output$scores[, 1:2][i, ], level=0.95), type="l", col="grey50") 
           }
-          points(output$scores[,1], output$scores[,2], cex=1, pch=rep(16:26)[group], col=colr(group,0.6), font=5)
-          legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = c(1), pch = c(3))
-          legend("topright", bty = "n", paste("Group ", c(gpnames), sep=""), col = names(table(colr(group, 0.6))),lty = rep(0,length(gpnames)),  pch = rep(16:26))
+          points(output$scores[,1], output$scores[,2], cex=1, pch=rep(16:26)[group], col=group, font=5)
+          legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = c(1))
+          legend("topright", bty = "n", paste("Group ", c(gpnames), sep=""), col = group,lty = rep(0,length(gpnames)),  pch = rep(16:26))
       } # else
  } # if
  
@@ -56,10 +56,10 @@ function(output, group=FALSE)
            	plot(scores[,1], scores[,2], xlim=c(min(scores[,1])-0.5,max(scores[,1])+0.5), ylim=c(min(scores[,2])-0.5, max(scores[,2])+0.5), type="n", xlab=paste("PC",c1, sep=""), ylab=paste("PC",c2, sep=""))
           	for(l in 1:nrow(scores))
           	{
-               mvn2plot(scores[l,], varcov, k = 15, alone = FALSE, col = "grey50")  
+               points(ellipse(varcov, centre=scores[l, ], level=0.95), type="l", col="grey50") 
           	}
-          	points(scores[,1], scores[,2], cex=1, pch=16, font=5, col=colr(1, 0.6))
-          	legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = c(1), pch = c(3))
+          	points(scores[,1], scores[,2], cex=1, pch=16, font=5, col=1)
+          	legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = c(1))
           	if(j < choose(q,(q-2)))
             {
               ask(msg = "Press <RETURN> to view the scores plot for the next pair of dimensions: ")
@@ -76,12 +76,12 @@ function(output, group=FALSE)
         	 varcov<-matrix(c(sigma[c1,c1], sigma[c1,c2], sigma[c2,c1], sigma[c2,c2]), 2, 2, byrow=TRUE)
            	plot(scores[,1], scores[,2], xlim=c(min(scores[,1])-0.5,max(scores[,1])+0.5), ylim=c(min(scores[,2])-0.5, max(scores[,2])+0.5), type="n", xlab=paste("PC",c1, sep=""), ylab=paste("PC",c2, sep=""))
           	for(l in 1:nrow(scores))
-          	{
-               mvn2plot(scores[l,], varcov, k = 15, alone = FALSE, col = "grey50")  
+          	{  
+               points(ellipse(varcov, centre=scores[l, ], level=0.95), type="l", col="grey50")
           	}
-          	points(scores[,1], scores[,2], cex=1, font=5, pch=rep(16:26)[group], col=colr(group,0.6))
-          	legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = c(1), pch = c(3))
-          	legend("topright", bty = "n", paste("Group ", c(gpnames), sep=""), col = names(table(colr(group, 0.6))),lty = rep(0,length(gpnames)),  pch = rep(16:26))
+          	points(scores[,1], scores[,2], cex=1, font=5, pch=rep(16:26)[group], col=group)
+          	legend("topleft", bty = "n", c("95% Posterior Set"), col = "grey50", lty = c(1))
+          	legend("topright", bty = "n", paste("Group ", c(gpnames), sep=""), col = group,lty = rep(0,length(gpnames)),  pch = rep(16:26))
           	if(j < choose(q,(q-2)))
             {
               ask(msg = "Press <RETURN> to view the scores plot for the next pair of dimensions: ")
