@@ -57,9 +57,11 @@ Nyamundanda Gift, Isobel Claire Gormley and Lorraine Brennan.
 }
 \examples{
 data(UrineSpectra)
+\dontrun{
 mdlfit<-ppca.metabol(UrineSpectra[[1]], minq=2, maxq=2, scale="none")
 loadings.plot(mdlfit)
 ppca.scores.plot(mdlfit, group=UrineSpectra[[2]][,1])
+}
 }
 
 \keyword{ methods }

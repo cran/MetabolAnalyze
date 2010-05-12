@@ -82,7 +82,7 @@ for(g in ming:maxg)
             Pi<-1
             mu<-matrix(colMeans(Y), p, 1)
          }else{                                 
-			temp<-EMclust(cmdscale(dist(Y)), G=g)
+			temp<-mclustBIC(cmdscale(dist(Y)), G=g)
 			res<-summary(temp, cmdscale(dist(Y)))
 			Tau<-res$z
             logTau<-Tau

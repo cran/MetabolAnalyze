@@ -65,10 +65,12 @@ Nyamundanda Gift, Isobel Claire Gormley and Lorraine Brennan.
 }
 \examples{
 data(BrainSpectra)
+\dontrun{
 mdlfit<-mppca.metabol(BrainSpectra[[1]], minq=7, maxq=7, ming=4, maxg=4, 
 plot.BIC = TRUE)
 mppca.scores.plot(mdlfit)
 mppca.loadings.plot(mdlfit, BrainSpectra[[1]])
+}
 }
 
 \keyword{methods}
