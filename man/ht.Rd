@@ -10,7 +10,13 @@ Function to plot a heat map of BIC values where lighter colours indicate larger 
 The function is a modified version of \code{\link{heatmap}}.
 }
 \usage{
-ht(x, Rowv = NULL, Colv = if (symm) "Rowv" else NULL, distfun = dist, hclustfun = hclust, reorderfun = function(d, w) reorder(d, w), add.expr, symm = FALSE, revC = identical(Colv, "Rowv"), scale = c("row", "column", "none"), na.rm = FALSE, margins = c(5, 5), ColSideColors, RowSideColors, cexRow = 1, cexCol = 1, labRow = NULL, labCol = NULL, main = NULL, xlab = NULL, ylab = NULL, keep.dendro = FALSE, verbose = getOption("verbose"), q, g)
+ht(x, Rowv = NULL, Colv = if (symm) "Rowv" else NULL, distfun = dist,
+   hclustfun = hclust, reorderfun = function(d, w) reorder(d, w),
+   add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),
+   scale = c("row", "column", "none"), na.rm = FALSE, margins = c(5, 5),
+   ColSideColors, RowSideColors, cexRow = 1, cexCol = 1, labRow = NULL,
+   labCol = NULL, main = NULL, xlab = NULL, ylab = NULL,
+   keep.dendro = FALSE, verbose = getOption("verbose"), q, g)
 }
 \arguments{
 See the help file for \code{\link{heatmap}}.

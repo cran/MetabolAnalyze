@@ -5,10 +5,23 @@
 exportPattern(".")
 
 # Import all packages listed as Imports or Depends
-import(
-  mclust,
-  mvtnorm,
-  ellipse,
-  gtools,
-  gplots
-)
+## import(
+##   mclust,
+##   mvtnorm,
+##   ellipse,
+##   gtools,
+##   gplots
+## )
+
+importFrom("graphics", "abline", "axis", "frame", "image", "layout",
+           "legend", "mtext", "pairs", "par", "plot", "points", "text",
+           "title")
+importFrom("stats", "as.dendrogram", "cmdscale", "cov", "dist",
+           "gaussian", "glm", "hclust", "order.dendrogram", "qnorm",
+           "reorder", "rnorm", "sd", "var")
+
+importFrom("gplots", "barplot2")
+importFrom("gtools", "ask")
+importFrom("ellipse", "ellipse")
+importFrom("mclust", "map", "mclustBIC", "unmap")
+importFrom("mvtnorm", "dmvnorm")
